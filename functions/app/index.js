@@ -4,7 +4,7 @@ import express from 'express'
 // import morgan from 'morgan'
 // import bodyParser from 'body-parser'
 // import compression from 'compression'
-import customLogger from '../utils/logger'
+// import customLogger from '../utils/logger'
 
 /* My express App */
 export default function expressApp(functionName) {
