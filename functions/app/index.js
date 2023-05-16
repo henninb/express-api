@@ -15,55 +15,45 @@ export default function expressApp(functionName) {
   // Set router base path for local dev
   const routerBasePath = process.env.NODE_ENV === 'dev' ? `/${functionName}` : `/.netlify/functions/${functionName}/`
 
-  /* define routes */
-  router.get('/', (req, res) => {
+  router.get('/', (_request, response) => {
     const html = `
     <html>
       <head>
-        <style>
-          body {
-            padding: 30px;
-          }
-        </style>
       </head>
       <body>
         <h1>Express via '${functionName}'</h1>
 
-        <p>I'm using Express running via a <a href='https://www.netlify.com/docs/functions/' target='_blank'>Netlify Function</a>.</p>
-
-        <p>Choose a route:</p>
-
-        <div>
-          <a href='/.netlify/functions/${functionName}/users'>View /users route</a>
-        </div>
-
-        <div>
-          <a href='/.netlify/functions/${functionName}/hello'>View /hello route</a>
-        </div>
-
-        <br/>
+        <div> <a href='/.netlify/functions/${functionName}/users'>View /users route</a> </div>
+        <div> <a href='/.netlify/functions/${functionName}/hello'>View /hello route</a> </div>
+        <div> <a href='/.netlify/functions/${functionName}/cookie'>View /cookie route</a> </div>
 
       </body>
     </html>
   `
-    res.send(html)
+    response.send(html)
   })
 
-  router.get('/users', (req, res) => {
-    res.json({
-      users: [
-        {
-          name: 'steve',
-        },
-        {
-          name: 'joe',
-        },
+  router.get('/users', (_request, response) => {
+    response.json({
+      users: [ { name: 'steve', },
+        { name: 'joe', },
       ],
     })
   })
 
-  router.get('/hello/', function(req, res) {
-    res.send('hello world')
+  router.get('/cookie', function(_request, res) {
+  // Generate session cookie value
+  var sessionId = '1234'; // Replace with your session ID
+
+  // Set the session cookie in the response
+  res.setHeader('Set-Cookie', 'session=' + sessionId);
+
+  // Send the response data
+  res.send('Response data');
+  });
+
+  router.get('/hello/', function(_reqquest, response) {
+    response.send('hello world')
   })
 
   app.use(routerBasePath, router)

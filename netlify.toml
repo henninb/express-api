@@ -1,5 +1,12 @@
 [build]
+  publish = "public"
   functions = "functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true # COMMENT: ensure that we always redirect
 # [build]
 #   # This will be run the site build
 #   command = "npm run build"
