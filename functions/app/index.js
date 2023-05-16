@@ -1,4 +1,3 @@
-/* Express App */
 import express from 'express'
 // import cors from 'cors'
 // import morgan from 'morgan'
@@ -6,7 +5,6 @@ import express from 'express'
 // import compression from 'compression'
 // import customLogger from '../utils/logger'
 
-/* My express App */
 export default function expressApp(functionName) {
   const app = express()
   const router = express.Router()
@@ -29,7 +27,7 @@ export default function expressApp(functionName) {
         </style>
       </head>
       <body>
-        <h1>Express via '${functionName}' ⊂◉‿◉つ</h1>
+        <h1>Express via '${functionName}'</h1>
 
         <p>I'm using Express running via a <a href='https://www.netlify.com/docs/functions/' target='_blank'>Netlify Function</a>.</p>
 
@@ -44,22 +42,7 @@ export default function expressApp(functionName) {
         </div>
 
         <br/>
-        <br/>
 
-        <div>
-          <a href='/'>
-            Go back to demo homepage
-          </a>
-        </div>
-
-        <br/>
-        <br/>
-
-        <div>
-          <a href='https://github.com/DavidWells/netlify-functions-express' target='_blank'>
-            See the source code on github
-          </a>
-        </div>
       </body>
     </html>
   `
@@ -83,10 +66,6 @@ export default function expressApp(functionName) {
     res.send('hello world')
   })
 
-  // Attach logger
-  // app.use(morgan(customLogger))
-
-  // Setup routes
   app.use(routerBasePath, router)
 
   // Apply express middlewares
