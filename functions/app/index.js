@@ -16,9 +16,12 @@ export default function expressApp(functionName) {
   const routerBasePath = process.env.NODE_ENV === 'dev' ? `/${functionName}` : `/.netlify/functions/${functionName}/`
 
   router.get('/', (_request, response) => {
-    const html = `
+    const html_payload = `
     <html>
       <head>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <!-- <script src="script.js"></script> -->
+        <title>serverless</title>
       </head>
       <body>
         <h1>Express via '${functionName}'</h1>
@@ -30,7 +33,7 @@ export default function expressApp(functionName) {
       </body>
     </html>
   `
-    response.send(html)
+    response.send(html_payload)
   })
 
   router.get('/users', (_request, response) => {
@@ -41,15 +44,13 @@ export default function expressApp(functionName) {
     })
   })
 
-  router.get('/cookie', function(_request, res) {
-  // Generate session cookie value
-  var sessionId = '1234'; // Replace with your session ID
+  router.get('/cookie', function(_request, response) {
 
   // Set the session cookie in the response
-  res.setHeader('Set-Cookie', 'session=' + sessionId);
+  response.setHeader('Set-Cookie', 'session=' + '1234');
 
   // Send the response data
-  res.send('Response data');
+  response.send('Response data');
   });
 
   router.get('/hello/', function(_reqquest, response) {
