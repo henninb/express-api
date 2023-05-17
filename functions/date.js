@@ -1,13 +1,14 @@
 module.exports.handler = async (_event, _context) => {
+  const currentDate = new Date();
+  const formattedDate = currentDate.toDateString();
+
   const response = {
     statusCode: 200,
     body: JSON.stringify({
-      users: [
-        { name: 'steve' },
-        { name: 'joe' }
-      ]
+      currentDate: formattedDate
     })
   };
 
   return response;
 };
+
