@@ -1,5 +1,5 @@
 import express from 'express'
-// import cors from 'cors'
+import cors from 'cors'
 // import morgan from 'morgan'
 // import bodyParser from 'body-parser'
 // import compression from 'compression'
@@ -60,7 +60,7 @@ export default function expressApp(functionName) {
   app.use(routerBasePath, router)
 
   // Apply express middlewares
-  // router.use(cors())
+  router.use(cors())
   // router.use(bodyParser.json())
   // router.use(bodyParser.urlencoded({ extended: true }))
 
