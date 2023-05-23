@@ -1,3 +1,3 @@
-module.exports = (req, res) => {
-  res.status(200).json({ message: 'Hello vercel!' });
+module.exports = (_request, response) => {
+  response.status(200).json({ message: 'Hello vercel!' });
 };
