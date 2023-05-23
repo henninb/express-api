@@ -1,12 +1,15 @@
 //const axios = require('axios');
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan');
 // const fs = require("fs");
 //const cors = require('cors');
 
 
 const port = 8080;
 const app = express();
+
+app.use(morgan('combined'));
 
 // website that will be allowed to connect
 // app.use(cors({origin: 'http://localhost:3000'}));
