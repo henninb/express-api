@@ -3,13 +3,24 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 // const fs = require("fs");
-//const cors = require('cors');
+const cors = require('cors');
 
 
 const port = 8080;
 const app = express();
 
 app.use(morgan('combined'));
+// app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// app.use(
+//   cors({
+//     origin: 'http://example.com', // allow requests from a specific origin
+//     methods: 'GET,POST', // allow only GET and POST requests
+//     allowedHeaders: 'Content-Type,Authorization', // allow only specific headers
+//   })
+// );
 
 // website that will be allowed to connect
 // app.use(cors({origin: 'http://localhost:3000'}));
@@ -42,7 +53,7 @@ app.post('/api/login', async(_request, response) => {
 });
 
 //curl -X GET localhost:8080/api/login
-app.get('/api/login', async(_request, response) => {
+app.get('/api/v1/login', async(_request, response) => {
   response.status(200)
   .header('Content-Type', 'application/json')
   .send({ key: 'GET' });
