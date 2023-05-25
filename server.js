@@ -56,13 +56,14 @@ app.listen(port, (_request, _response, _next) => {
 
 
 // curl -X POST -H "Content-Type: application/json" -d '{"username": "admin", "password": "password"}' http://localhost:8080/api/login
+// curl -X POST -H "Content-Type: application/json" -d '{"email": "henninb", "password": "monday1"}' http://localhost:3000/api/login
 app.post('/api/login', async (request, response) => {
-  const { username, password } = request.body;
+  const { email, password } = request.body;
 
   // Perform authentication logic here
-  if (username === 'admin' && password === 'password') {
+  if (email === 'henninb' && password === 'monday1') {
     // Authentication successful
-    const token = jwt.sign({ username }, secretKey);
+    const token = jwt.sign({ email }, secretKey);
 
     response.status(200)
       .header('Content-Type', 'application/json')
