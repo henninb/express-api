@@ -3,7 +3,9 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 // const fs = require("fs");
-const cors = require('cors');
+// const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const secretKey = 'your-secret-key'; // Replace with your actual secret key
 
 
 const port = 8080;
@@ -46,14 +48,35 @@ app.listen(port, (_request, _response, _next) => {
 //let apiKey = fs.readFileSync(path.join(__dirname, "apikey"));
 
 //curl -X POST localhost:8080/api/login
-app.post('/api/login', async(_request, response) => {
-  response.status(200)
-  .header('Content-Type', 'application/json')
-  .send({ key: 'POST' });
+// app.post('/api/login', async(_request, response) => {
+//   response.status(200)
+//   .header('Content-Type', 'application/json')
+//   .send({ key: 'POST' });
+// });
+
+
+// curl -X POST -H "Content-Type: application/json" -d '{"username": "admin", "password": "password"}' http://localhost:8080/api/login
+app.post('/api/login', async (request, response) => {
+  const { username, password } = request.body;
+
+  // Perform authentication logic here
+  if (username === 'admin' && password === 'password') {
+    // Authentication successful
+    const token = jwt.sign({ username }, secretKey);
+
+    response.status(200)
+      .header('Content-Type', 'application/json')
+      .send({ message: 'Authentication successful', token });
+  } else {
+    // Authentication failed
+    response.status(401)
+      .header('Content-Type', 'application/json')
+      .send({ message: 'Authentication failed' });
+  }
 });
 
 //curl -X GET localhost:8080/api/login
-app.get('/api/v1/login', async(_request, response) => {
+app.get('/api/login', async(_request, response) => {
   response.status(200)
   .header('Content-Type', 'application/json')
   .send({ key: 'GET' });
