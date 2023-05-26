@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 // const fs = require("fs");
 // const cors = require('cors');
 const jwt = require('jsonwebtoken');
@@ -13,8 +14,11 @@ const app = express();
 
 app.use(morgan('combined'));
 // app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // app.use(
 //   cors({
@@ -59,7 +63,6 @@ app.listen(port, (_request, _response, _next) => {
 // curl -X POST -H "Content-Type: application/json" -d '{"email": "henninb", "password": "monday1"}' http://localhost:3000/api/login
 app.post('/api/login', async (request, response) => {
   const { email, password } = request.body;
-
   // Perform authentication logic here
   if (email === 'henninb' && password === 'monday1') {
     // Authentication successful
@@ -69,10 +72,11 @@ app.post('/api/login', async (request, response) => {
       .header('Content-Type', 'application/json')
       .send({ message: 'Authentication successful', token });
   } else {
-    // Authentication failed
+    const errorMessage = 'Invalid email or password';
     response.status(401)
-      .header('Content-Type', 'application/json')
-      .send({ message: 'Authentication failed' });
+      // .header('Content-Type', 'application/json')
+      .json({ error: errorMessage });
+      // .send({ message: 'Authentication failed' });
   }
 });
 

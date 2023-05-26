@@ -3,6 +3,7 @@ body {
   background-color: #282a36;
   color: #f8f8f2;
   font-family: 'Courier New', monospace;
+  margin: 0; /* Add this line to remove default body margin */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -29,6 +30,21 @@ label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column; /* Add this line to stack elements vertically */
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  box-sizing: border-box; /* Add this line to include padding and border in height calculation */
+  padding: 20px; /* Add this line to create some spacing around the container */
+}
+
+form {
+  width: 300px;
+  margin-top: 20px; /* Add this line to create spacing between menu and form */
 }
 
 input[type="text"],
@@ -58,3 +74,28 @@ input[type="password"] {
 .btn:hover {
   background-color: #ca9bf7;
 }
+
+ul.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f1;
+  overflow: hidden;
+  margin-bottom: 20px; /* Add this line to create spacing between menu and form */
+}
+
+ul.menu li {
+  float: left;
+}
+
+ul.menu li a {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #000;
+}
+
+ul.menu li a:hover {
+  background-color: #ddd;
+}
+
