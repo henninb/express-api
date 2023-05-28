@@ -86,3 +86,23 @@ app.get('/api/login', async(_request, response) => {
   .header('Content-Type', 'application/json')
   .send({ key: 'GET' });
 });
+
+app.get('/account/:accountId', async(request, response) => {
+  const accountId = request.params.accountId;
+  response.status(200)
+  .header('Content-Type', 'application/json')
+  .send({ key: 'account-'+ accountId });
+});
+
+app.get('/account/active', async(_request, response) => {
+  response.status(200)
+  .header('Content-Type', 'application/json')
+  .send({ key: 'account-active' });
+});
+
+app.get('/account/delete', async(_request, response) => {
+  response.status(200)
+  .header('Content-Type', 'application/json')
+  .send({ key: 'account-delete' });
+});
+
