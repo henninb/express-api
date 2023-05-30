@@ -3,7 +3,8 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-// const fs = require("fs");
+const https = require('https');
+const fs = require('fs');
 // const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const secretKey = 'your-secret-key'; // Replace with your actual secret key
@@ -11,6 +12,15 @@ const secretKey = 'your-secret-key'; // Replace with your actual secret key
 
 const port = 8080;
 const app = express();
+
+const options = {
+  key: fs.readFileSync('ssl/key.pem'),
+  cert: fs.readFileSync('ssl/cert.pem')
+};
+
+const server = https.createServer(options, app);
+
+// app.use(favicon(__dirname + '/public/favicon.ico'));
 
 app.use(morgan('combined'));
 // app.use(cors());
@@ -45,9 +55,13 @@ app.use(express.static(path.join(__dirname, 'public'), {
 }));
 
 
-app.listen(port, (_request, _response, _next) => {
-  console.log(`app is listening to port ${port}`);
+server.listen(port, () => {
+  console.log(`app is listening to port ${port} with https`);
 });
+
+// app.listen(port, (_request, _response, _next) => {
+  // console.log(`app is listening to port ${port} with http`);
+// });
 
 //let apiKey = fs.readFileSync(path.join(__dirname, "apikey"));
 
@@ -65,7 +79,6 @@ app.post('/api/login', async (request, response) => {
   const { email, password } = request.body;
   // Perform authentication logic here
   if (email === 'henninb' && password === 'monday1') {
-    // Authentication successful
     const token = jwt.sign({ email }, secretKey);
 
     response.status(200)
