@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  express-api:
+    image: express-api
+    hostname: express-api
+    container_name: express-api
+    restart: always
+    build:
+      context: ./
+      args:
+        - TIMEZONE=America/Chicago
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
