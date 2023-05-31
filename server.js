@@ -113,9 +113,23 @@ app.get('/account/active', async(_request, response) => {
   .send({ key: 'account-active' });
 });
 
-app.get('/account/delete', async(_request, response) => {
-  response.status(200)
-  .header('Content-Type', 'application/json')
-  .send({ key: 'account-delete' });
+app.post('/api/celsius', async(request, response) => {
+  const { fahrenheit } = request.body;
+
+  const celsius = (fahrenheit - 32) * 5/9;
+
+  response.status(200).json({ celsius });
 });
 
+app.post('/api/fahrenheit', async (request, response) => {
+  const { celsius } = request.body;
+  //TODO: add error handling
+  // if (typeof celsius !== 'number') {
+  //   response.status(400).json({ error: 'Invalid input. Celsius value must be a number.' });
+  //   return;
+  // }
+
+  const fahrenheit = (celsius * 9/5) + 32;
+
+  response.status(200).json({ fahrenheit });
+});
