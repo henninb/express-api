@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const https = require('https');
 const fs = require('fs');
 const axios = require('axios');
+const createProxyMiddleware = require('http-proxy-middleware');
 
 // const cors = require('cors');
 const jwt = require('jsonwebtoken');
@@ -23,6 +24,18 @@ const options = {
 const server = https.createServer(options, app);
 
 // app.use(favicon(__dirname + '/public/favicon.ico'));
+
+const proxyOptions = {
+  target: 'https://www.bathandbodyworks.com',
+  changeOrigin: true,
+  headers: {
+    accept: "application/json",
+    method: "POST",
+  },
+};
+
+const apiProxy = createProxyMiddleware(proxyOptions);
+app.use('/external-api', apiProxy);
 
 app.use(morgan('combined'));
 // app.use(cors());
