@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const https = require('https');
 const fs = require('fs');
+const axios = require('axios');
+
 // const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const secretKey = 'your-secret-key'; // Replace with your actual secret key
@@ -111,6 +113,42 @@ app.get('/account/active', async(_request, response) => {
   response.status(200)
   .header('Content-Type', 'application/json')
   .send({ key: 'account-active' });
+});
+
+
+const postData = async () => {
+  const url = 'https://www.bathandbodyworks.com/my-account?dwcont=C1799660522';
+  const data = {
+    dwfrm_login_username: 'henninb+1980@gmail.com',
+    dwfrm_login_password: '',
+    dwfrm_login_securekey: '',
+    dwfrm_login_login: 'x',
+    format: 'ajax'
+  };
+
+  const headers = {
+    'User-Agent': 'Your Custom User Agent'
+  };
+
+  try {
+    const response = await axios.post(url, data, { headers });
+    console.log("success");
+    console.log(response.status);
+    // console.log(response.data);
+  } catch (error) {
+    console.log("failure");
+    console.log(error.response.status);
+    // console.error(error);
+  }
+};
+
+//https://www.bathandbodyworks.com/my-account?dwcont=C1799660522
+// /my-account?dwcont=C1799660522
+app.post('/my-account', async (request, response) => {
+  const { dwcont } = request.query;
+  postData();
+
+  response.status(200).json({ dwcont });
 });
 
 app.post('/api/celsius', async(request, response) => {
