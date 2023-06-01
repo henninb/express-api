@@ -16,11 +16,12 @@ const secretKey = 'your-secret-key'; // Replace with your actual secret key
 const port = 8080;
 const app = express();
 
-const apiProxy = createProxyMiddleware('/external-api', {
+const apiProxy = createProxyMiddleware('/my-account', {
   target: 'https://www.bathandbodyworks.com',
   changeOrigin: true,
   headers: {
-    accept: "application/json",
+    // accept: "application/json",
+    'User-Agent': 'Your Custom User Agent',
     method: "POST",
   },
 });
@@ -153,12 +154,12 @@ const postData = async () => {
 
 //https://www.bathandbodyworks.com/my-account?dwcont=C1799660522
 // /my-account?dwcont=C1799660522
-app.post('/my-account', async (request, response) => {
-  const { dwcont } = request.query;
-  postData();
-
-  response.status(200).json({ dwcont });
-});
+// app.post('/my-account', async (request, response) => {
+//   const { dwcont } = request.query;
+//   postData();
+//
+//   response.status(200).json({ dwcont });
+// });
 
 app.post('/api/celsius', async(request, response) => {
   const { fahrenheit } = request.body;
@@ -179,4 +180,8 @@ app.post('/api/fahrenheit', async (request, response) => {
   const fahrenheit = (celsius * 9/5) + 32;
 
   response.status(200).json({ fahrenheit });
+});
+
+app.post('/api/cookie', async (_request, response) => {
+  response.status(200);
 });
