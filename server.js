@@ -3,10 +3,13 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const https = require('https');
 const fs = require('fs');
+// const { readFileSync } = require('fs');
 const axios = require('axios');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+//const http2 = require('http2'); //for http/2
+const https2 = require('http2'); //for http/2
+const https = require('https'); // for http/1
 
 // const cors = require('cors');
 const jwt = require('jsonwebtoken');
@@ -30,10 +33,12 @@ app.use(apiProxy);
 
 const options = {
   key: fs.readFileSync('ssl/key.pem'),
-  cert: fs.readFileSync('ssl/cert.pem')
+  cert: fs.readFileSync('ssl/cert.pem'),
+  allowHTTP1: true
 };
 
 const server = https.createServer(options, app);
+// const server = http2.createServer(options, app);
 
 // app.use(favicon(__dirname + '/public/favicon.ico'));
 
