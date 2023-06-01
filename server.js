@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const https = require('https');
 const fs = require('fs');
 const axios = require('axios');
-const createProxyMiddleware = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // const cors = require('cors');
 const jwt = require('jsonwebtoken');
@@ -15,6 +15,17 @@ const secretKey = 'your-secret-key'; // Replace with your actual secret key
 
 const port = 8080;
 const app = express();
+
+const apiProxy = createProxyMiddleware('/external-api', {
+  target: 'https://www.bathandbodyworks.com',
+  changeOrigin: true,
+  headers: {
+    accept: "application/json",
+    method: "POST",
+  },
+});
+
+app.use(apiProxy);
 
 const options = {
   key: fs.readFileSync('ssl/key.pem'),
@@ -25,22 +36,8 @@ const server = https.createServer(options, app);
 
 // app.use(favicon(__dirname + '/public/favicon.ico'));
 
-const proxyOptions = {
-  target: 'https://www.bathandbodyworks.com',
-  changeOrigin: true,
-  headers: {
-    accept: "application/json",
-    method: "POST",
-  },
-};
-
-const apiProxy = createProxyMiddleware(proxyOptions);
-app.use('/external-api', apiProxy);
-
 app.use(morgan('combined'));
 // app.use(cors());
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -92,7 +89,6 @@ server.listen(port, () => {
 // curl -X POST -H "Content-Type: application/json" -d '{"email": "henninb", "password": "monday1"}' http://localhost:3000/api/login
 app.post('/api/login', async (request, response) => {
   const { email, password } = request.body;
-  // Perform authentication logic here
   if (email === 'henninb' && password === 'monday1') {
     const token = jwt.sign({ email }, secretKey);
 
